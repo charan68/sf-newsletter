@@ -1,0 +1,50 @@
+<template>
+    <div class="arch-wrapper">
+        <div class="arch-header">
+            <h2 class="arch-title">My Newsletter Archive</h2>
+            <template lwc:if={totalCount}>
+                <span class="arch-count">{totalCount} newsletters received</span>
+            </template>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="arch-state">Loading your archive...</div>
+        </template>
+
+        <template lwc:elseif={errorMessage}>
+            <div class="arch-error">{errorMessage}</div>
+        </template>
+
+        <template lwc:elseif={isEmpty}>
+            <div class="arch-empty">
+                <div class="arch-empty-icon">&#9993;</div>
+                <p>No newsletters yet.</p>
+                <p class="arch-empty-sub">Your daily newsletters will appear here once they start arriving.</p>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <ul class="arch-list">
+                <template for:each={processedHistory} for:item="entry">
+                    <li key={entry.Id} class={entry.entryClass}>
+                        <button class="arch-row" data-id={entry.Id} onclick={handleToggle}>
+                            <div class="arch-row-left">
+                                <span class="arch-cat">{entry.Topic__r.Category__c}</span>
+                                <span class="arch-topic">{entry.Topic__r.Name}</span>
+                            </div>
+                            <div class="arch-row-right">
+                                <span class="arch-date">{entry.formattedDate}</span>
+                                <span class="arch-chevron">{entry.chevron}</span>
+                            </div>
+                        </button>
+                        <template lwc:if={entry.isExpanded}>
+                            <div class="arch-content">
+                                <p class="arch-content-text">{entry.GeneratedContent__c}</p>
+                            </div>
+                        </template>
+                    </li>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

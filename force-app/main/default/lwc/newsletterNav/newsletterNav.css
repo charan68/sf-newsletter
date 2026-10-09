@@ -1,0 +1,145 @@
+.nl-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #032D60;
+    height: 60px;
+    padding: 0 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 100;
+}
+
+.nl-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.nl-brand-icon {
+    font-size: 22px;
+}
+
+.nl-brand-name {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+}
+
+.nl-profile-wrapper {
+    position: relative;
+}
+
+.nl-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1B96FF;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    letter-spacing: 0.5px;
+}
+
+.nl-avatar:hover,
+.nl-avatar:focus {
+    background: #0176D3;
+    border-color: rgba(255, 255, 255, 0.6);
+    outline: none;
+}
+
+.nl-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18), 0 1px 4px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    overflow: hidden;
+    animation: dropIn 0.15s ease;
+}
+
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.nl-dropdown-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #F3F3F3;
+}
+
+.nl-dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1B96FF;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nl-dropdown-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #181818;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nl-divider {
+    height: 1px;
+    background: #E5E5E5;
+}
+
+.nl-dropdown-item {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #181818;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.1s ease;
+}
+
+.nl-dropdown-item:hover {
+    background: #F0F7FF;
+    color: #0176D3;
+}
+
+.nl-dropdown-item.nl-logout {
+    color: #BA0517;
+}
+
+.nl-dropdown-item.nl-logout:hover {
+    background: #FFF1EE;
+    color: #8E030F;
+}
+
+.nl-item-icon {
+    font-size: 16px;
+    width: 18px;
+    text-align: center;
+}

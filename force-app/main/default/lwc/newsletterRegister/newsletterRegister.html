@@ -1,0 +1,89 @@
+<template>
+    <div class="reg-wrapper">
+        <div class="reg-card">
+            <div class="reg-header">
+                <h1>SF Daily Newsletter</h1>
+                <p>Create your account to get started</p>
+            </div>
+
+            <template lwc:if={showSuccess}>
+                <template lwc:if={successViaEmail}>
+                    <div class="success-box">
+                        Account created! Check your email for an activation link to set your password, then <a href={loginUrl}>sign in here</a>.
+                    </div>
+                </template>
+                <template lwc:else>
+                    <div class="success-box">
+                        Account created! <a href={loginUrl}>Sign in here</a> to subscribe to topics.
+                    </div>
+                </template>
+            </template>
+
+            <template lwc:if={showForm}>
+                <template lwc:if={errorMessage}>
+                    <div class="error-box">{errorMessage}</div>
+                </template>
+
+                <div class="form-body">
+                    <div class="row-2">
+                        <div class="field">
+                            <label>First Name *</label>
+                            <input type="text" value={firstName} onchange={handleChange} data-field="firstName" placeholder="First name" />
+                        </div>
+                        <div class="field">
+                            <label>Last Name *</label>
+                            <input type="text" value={lastName} onchange={handleChange} data-field="lastName" placeholder="Last name" />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Email *</label>
+                        <input type="email" value={email} onchange={handleChange} data-field="email" placeholder="your@email.com" />
+                    </div>
+
+                    <div class="field">
+                        <div class="username-label-row">
+                            <label>Username *</label>
+                            <span class="username-hint">Must be in email format</span>
+                        </div>
+                        <div class="username-input-wrap">
+                            <input type="text"
+                                   class={usernameInputClass}
+                                   value={username}
+                                   oninput={handleUsernameInput}
+                                   placeholder="yourname@example.com" />
+                            <template lwc:if={isCheckingUsername}>
+                                <span class="un-status un-checking">Checking...</span>
+                            </template>
+                            <template lwc:elseif={isUsernameAvailable}>
+                                <span class="un-status un-available">&#10003; Available</span>
+                            </template>
+                            <template lwc:elseif={isUsernameTaken}>
+                                <span class="un-status un-taken">&#10007; Already taken</span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Password *</label>
+                        <input type="password" value={password} onchange={handleChange} data-field="password" placeholder="Minimum 8 characters" />
+                    </div>
+
+                    <div class="field">
+                        <label>Confirm Password *</label>
+                        <input type="password" value={confirmPassword} onchange={handleChange} data-field="confirmPassword" placeholder="Repeat password" />
+                    </div>
+
+                    <button class="submit-btn" onclick={handleSubmit} disabled={isSaving}>
+                        <template lwc:if={isSaving}>Creating account...</template>
+                        <template lwc:else>Create Account</template>
+                    </button>
+
+                    <div class="login-link">
+                        Already have an account? <a href={loginUrl}>Sign in</a>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

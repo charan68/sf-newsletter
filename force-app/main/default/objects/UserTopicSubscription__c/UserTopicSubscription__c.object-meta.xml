@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Tracks which topics each user has subscribed to</description>
+    <label>User Topic Subscription</label>
+    <nameField>
+        <displayFormat>SUB-{0000}</displayFormat>
+        <label>Subscription Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>User Topic Subscriptions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

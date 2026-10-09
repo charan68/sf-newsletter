@@ -1,0 +1,90 @@
+<template>
+    <div class="ms-wrapper">
+        <div class="ms-header">
+            <h2 class="ms-title">My Subscriptions</h2>
+            <p class="ms-subtitle">{headerSubtitle}</p>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="ms-state">Loading your subscriptions...</div>
+        </template>
+
+        <template lwc:elseif={errorMessage}>
+            <div class="ms-error">{errorMessage}</div>
+        </template>
+
+        <template lwc:elseif={isEmpty}>
+            <div class="ms-empty">
+                <p>You have no active subscriptions.</p>
+                <a href={homeUrl} class="ms-browse-link">Browse &amp; Subscribe to Topics</a>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <p class="ms-count">{topics.length} active topic(s)</p>
+            <ul class="ms-list">
+                <template for:each={topics} for:item="topic">
+                    <li key={topic.Id} class="ms-item">
+                        <div class="ms-item-info">
+                            <span class="ms-category">{topic.Category__c}</span>
+                            <span class="ms-name">{topic.Name}</span>
+                        </div>
+                        <button
+                            class="ms-remove-btn"
+                            data-id={topic.Id}
+                            onclick={handleRemove}
+                            disabled={topic._removing}>
+                            Remove
+                        </button>
+                    </li>
+                </template>
+            </ul>
+            <div class="ms-footer">
+                <a href={homeUrl} class="ms-add-link">+ Add more topics</a>
+            </div>
+        </template>
+
+        <!-- Delivery Preferences -->
+        <div class="pref-card">
+            <h3 class="pref-title">Delivery Preferences</h3>
+            <p class="pref-desc">How often do you want to receive newsletters?</p>
+
+            <div class="pref-options">
+                <label class={dailyOptionClass}>
+                    <input type="radio" name="freq" value="Daily" checked={isDailySelected} onchange={handleFrequencyChange} />
+                    <div class="pref-option-content">
+                        <span class="pref-option-label">Daily</span>
+                        <span class="pref-option-sub">One topic every day</span>
+                    </div>
+                </label>
+                <label class={weeklyOptionClass}>
+                    <input type="radio" name="freq" value="Weekly" checked={isWeeklySelected} onchange={handleFrequencyChange} />
+                    <div class="pref-option-content">
+                        <span class="pref-option-label">Weekly digest</span>
+                        <span class="pref-option-sub">3 topics in one email on your chosen day</span>
+                    </div>
+                </label>
+            </div>
+
+            <template lwc:if={isWeeklySelected}>
+                <div class="pref-day-row">
+                    <label class="pref-day-label">Deliver on</label>
+                    <select class="pref-day-select" onchange={handleDayChange}>
+                        <template for:each={dayOptions} for:item="day">
+                            <option key={day.value} value={day.value} selected={day.selected}>{day.label}</option>
+                        </template>
+                    </select>
+                </div>
+            </template>
+
+            <div class="pref-actions">
+                <button class="pref-save-btn" onclick={handleSavePreference} disabled={isSavingPref}>
+                    {savePrefLabel}
+                </button>
+                <template lwc:if={prefSaved}>
+                    <span class="pref-saved-badge">&#10003; Saved</span>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,91 @@
+<template>
+    <div class="newsletter-container">
+        <div class="header">
+            <h1>SF Daily Newsletter</h1>
+            <p>Select the topics you'd like to learn about, one per day.</p>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="spinner-container">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={errorMessage}>
+            <div class="error-box">
+                <lightning-icon icon-name="utility:error" size="small"></lightning-icon>
+                <span>{errorMessage}</span>
+            </div>
+        </template>
+
+        <template lwc:if={topicsReady}>
+            <div class="tab-bar">
+                <button class={generalTabClass} data-tab="general" onclick={handleTabSwitch}>
+                    General
+                </button>
+                <button class={supportTabClass} data-tab="support" onclick={handleTabSwitch}>
+                    Salesforce Support Exclusive
+                </button>
+            </div>
+
+            <div class="search-bar">
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Search topics..."
+                    value={searchTerm}
+                    oninput={handleSearchChange} />
+            </div>
+
+            <div class="cat-chips">
+                <template for:each={categoryChips} for:item="chip">
+                    <button key={chip.label} class={chip.chipClass} data-category={chip.label} onclick={handleCategorySelect}>
+                        {chip.label}
+                    </button>
+                </template>
+            </div>
+
+            <template lwc:if={noResults}>
+                <div class="no-results">
+                    No topics match &quot;{searchTerm}&quot;.
+                    <button class="clear-btn" onclick={clearFilters}>Clear</button>
+                </div>
+            </template>
+
+            <template for:each={filteredTopicsByCategory} for:item="group">
+                <div key={group.category} class="category-section">
+                    <h3 class="category-label">{group.category}</h3>
+                    <div class="topics-grid">
+                        <template for:each={group.topics} for:item="topic">
+                            <div key={topic.Id}
+                                 class={topic.cardClass}
+                                 data-id={topic.Id}
+                                 onclick={handleTopicToggle}>
+                                <div class="topic-check">
+                                    <template lwc:if={topic.selected}>
+                                        <lightning-icon icon-name="utility:check" size="x-small" class="check-icon"></lightning-icon>
+                                    </template>
+                                </div>
+                                <div class="topic-name">{topic.Name}</div>
+                                <div class="topic-desc">{topic.Description__c}</div>
+                                <template lwc:if={topic.subscriberCount}>
+                                    <div class="sub-badge">&#128101; {topic.subscriberLabel}</div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <div class="footer-actions">
+                <span class="selected-count">{selectedCount} topic(s) selected</span>
+                <lightning-button
+                    label="Save Subscriptions"
+                    variant="brand"
+                    onclick={handleSave}
+                    disabled={isSaving}>
+                </lightning-button>
+            </div>
+        </template>
+    </div>
+</template>

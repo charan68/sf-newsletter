@@ -1,0 +1,33 @@
+<template>
+    <template lwc:if={showNav}>
+        <nav class="nl-nav">
+            <div class="nl-brand">
+                <span class="nl-brand-icon">&#9993;</span>
+                <span class="nl-brand-name">SF Daily Newsletter</span>
+            </div>
+            <div class="nl-profile-wrapper">
+                <button class="nl-avatar" onclick={toggleDropdown} aria-haspopup="true" aria-expanded={open}>
+                    {initials}
+                </button>
+                <template lwc:if={open}>
+                    <div class="nl-dropdown" role="menu">
+                        <div class="nl-dropdown-user">
+                            <span class="nl-dropdown-avatar">{initials}</span>
+                            <span class="nl-dropdown-name">{userName}</span>
+                        </div>
+                        <div class="nl-divider"></div>
+                        <button class="nl-dropdown-item" onclick={goToSubscriptions} role="menuitem">
+                            <span class="nl-item-icon">&#9776;</span> My Subscriptions
+                        </button>
+                        <button class="nl-dropdown-item" onclick={goToArchive} role="menuitem">
+                            <span class="nl-item-icon">&#128196;</span> My Archive
+                        </button>
+                        <button class="nl-dropdown-item nl-logout" onclick={handleLogout} role="menuitem">
+                            <span class="nl-item-icon">&#8594;</span> Sign Out
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </nav>
+    </template>
+</template>

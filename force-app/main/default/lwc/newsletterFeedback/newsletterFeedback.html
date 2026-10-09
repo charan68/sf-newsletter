@@ -1,0 +1,43 @@
+<template>
+    <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 60px auto; text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+
+        <!-- Loading -->
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+            <p style="color: #706E6B; margin-top: 16px;">Saving your feedback...</p>
+        </template>
+
+        <!-- Success: saved -->
+        <template lwc:if={isSaved}>
+            <div style="font-size: 64px; margin-bottom: 16px;">{ratingEmoji}</div>
+            <h2 style="color: #032D60; font-size: 22px; margin: 0 0 10px 0;">Thanks for your feedback!</h2>
+            <p style="color: #555; line-height: 1.6; margin: 0 0 24px 0;">
+                You rated this edition as <strong>{ratingLabel}</strong>. Your input helps us improve the content.
+            </p>
+            <a href="/newsletters/s/" style="display: inline-block; background: #1B96FF; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                Back to Newsletter Portal
+            </a>
+        </template>
+
+        <!-- Already rated -->
+        <template lwc:if={isAlready}>
+            <div style="font-size: 64px; margin-bottom: 16px;">✅</div>
+            <h2 style="color: #032D60; font-size: 22px; margin: 0 0 10px 0;">Already submitted</h2>
+            <p style="color: #555; margin: 0 0 24px 0;">You've already shared feedback for this edition.</p>
+            <a href="/newsletters/s/" style="display: inline-block; background: #1B96FF; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                Back to Newsletter Portal
+            </a>
+        </template>
+
+        <!-- Error -->
+        <template lwc:if={isError}>
+            <div style="font-size: 64px; margin-bottom: 16px;">⚠️</div>
+            <h2 style="color: #C23934; font-size: 22px; margin: 0 0 10px 0;">Something went wrong</h2>
+            <p style="color: #555; margin: 0 0 24px 0;">We couldn't save your feedback. Please try again later.</p>
+            <a href="/newsletters/s/" style="display: inline-block; background: #1B96FF; color: white; padding: 10px 24px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                Back to Newsletter Portal
+            </a>
+        </template>
+
+    </div>
+</template>

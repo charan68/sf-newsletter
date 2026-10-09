@@ -1,0 +1,171 @@
+<template>
+    <div class="slds-p-around_large">
+
+        <!-- Header -->
+        <div class="slds-m-bottom_large">
+            <h1 style="font-size: 1.75rem; font-weight: 700; color: #032D60; font-family: Arial, sans-serif;">
+                Newsletter Admin Dashboard
+            </h1>
+            <p style="color: #706E6B; margin-top: 4px; font-family: Arial, sans-serif;">
+                Overview of subscribers, topics, and email delivery activity.
+            </p>
+        </div>
+
+        <!-- Summary Cards -->
+        <template lwc:if={stats.data}>
+            <div class="slds-grid slds-gutters slds-m-bottom_large">
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #032D60;">
+                        <p class="stat-label">Active Subscribers</p>
+                        <p class="stat-value" style="color: #032D60;">{stats.data.activeSubscribers}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #1B96FF;">
+                        <p class="stat-label">Topics Available</p>
+                        <p class="stat-value" style="color: #1B96FF;">{stats.data.totalTopics}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #2E844A;">
+                        <p class="stat-label">Emails Sent Today</p>
+                        <p class="stat-value" style="color: #2E844A;">{stats.data.emailsSentToday}</p>
+                    </div>
+                </div>
+
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #FF9A3C;">
+                        <p class="stat-label">Total Emails Sent</p>
+                        <p class="stat-value" style="color: #FF9A3C;">{stats.data.totalEmailsSent}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Feedback row -->
+            <div class="slds-grid slds-gutters slds-m-bottom_large">
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #2E844A;">
+                        <p class="stat-label">👍 Helpful Ratings</p>
+                        <p class="stat-value" style="color: #2E844A;">{stats.data.totalHelpful}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #C23934;">
+                        <p class="stat-label">👎 Not Helpful</p>
+                        <p class="stat-value" style="color: #C23934;">{stats.data.totalNotHelpful}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #7B5EA7;">
+                        <p class="stat-label">Feedback Rate</p>
+                        <p class="stat-value" style="color: #7B5EA7;">{feedbackRate}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <div class="stat-card" style="border-top: 4px solid #1B96FF;">
+                        <p class="stat-label">Satisfaction Score</p>
+                        <p class="stat-value" style="color: #1B96FF;">{satisfactionScore}</p>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+        <!-- Two-column layout -->
+        <div class="slds-grid slds-gutters">
+
+            <!-- Top Topics -->
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title" style="font-weight: 600; color: #032D60;">
+                            Top Topics by Subscribers
+                        </h2>
+                    </div>
+                    <div class="slds-card__body">
+                        <template lwc:if={topTopics.data}>
+                            <template lwc:if={hasTopics}>
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col"><div class="slds-truncate">#</div></th>
+                                            <th scope="col"><div class="slds-truncate">Topic</div></th>
+                                            <th scope="col"><div class="slds-truncate">Category</div></th>
+                                            <th scope="col"><div class="slds-truncate">Subscribers</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={topTopics.data} for:item="t" for:index="i">
+                                            <tr key={t.id}>
+                                                <td>{t.rank}</td>
+                                                <td>{t.name}</td>
+                                                <td>{t.category}</td>
+                                                <td><strong>{t.subscribers}</strong></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+                            <template lwc:else>
+                                <p class="slds-p-around_medium slds-text-color_weak">No subscriptions yet.</p>
+                            </template>
+                        </template>
+                        <template lwc:if={topTopics.error}>
+                            <p class="slds-p-around_medium slds-text-color_error">Failed to load topic data.</p>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Deliveries -->
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <h2 class="slds-card__header-title" style="font-weight: 600; color: #032D60;">
+                            Recent Deliveries
+                        </h2>
+                    </div>
+                    <div class="slds-card__body">
+                        <template lwc:if={recentDeliveries.data}>
+                            <template lwc:if={hasDeliveries}>
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col"><div class="slds-truncate">Date</div></th>
+                                            <th scope="col"><div class="slds-truncate">User</div></th>
+                                            <th scope="col"><div class="slds-truncate">Topic</div></th>
+                                            <th scope="col"><div class="slds-truncate">Feedback</div></th>
+                                            <th scope="col"><div class="slds-truncate">Preview</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={deliveriesWithFeedback} for:item="d">
+                                            <tr key={d.id}>
+                                                <td style="white-space: nowrap;">{d.sentDate}</td>
+                                                <td style="word-break: break-all;">{d.userEmail}</td>
+                                                <td>{d.topicName}</td>
+                                                <td style="white-space: nowrap;">{d.feedbackEmoji}</td>
+                                                <td style="color: #706E6B; font-size: 0.8rem;">{d.contentPreview}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+                            <template lwc:else>
+                                <p class="slds-p-around_medium slds-text-color_weak">No deliveries yet.</p>
+                            </template>
+                        </template>
+                        <template lwc:if={recentDeliveries.error}>
+                            <p class="slds-p-around_medium slds-text-color_error">Failed to load delivery data.</p>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</template>
